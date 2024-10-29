@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend  # Path to the frontend directory
+      dockerfile: Dockerfile  # Use the Dockerfile in the frontend directory
+    ports:
+      - "3000:80"  # Map port 3000 on the host to port 80 on the container
+    networks:
+      - app-network  # Define a network for the services
+    depends_on:
+      - backend  # Ensure backend starts before frontend
+
+  backend:
+    build:
+      context: ./backend  # Path to the backend directory
+      dockerfile: Dockerfile  # Use the Dockerfile in the backend directory
+    ports:
+      - "5000:5000"  # Map port 5000 on the host to port 5000 on the container
+    networks:
+      - app-network  # Use the same network as the frontend
+
+networks:
+  app-network:
+    driver: bridge  # Use the default bridge driver
